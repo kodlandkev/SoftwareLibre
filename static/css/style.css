@@ -1,0 +1,165 @@
+/*TODO: Estilos para las etiquetas del cuerpo de la página*/
+body{
+    margin: 0;
+    background-color: #121212;
+    /* *Fuente retro para dar vibra de programación */
+    font-family: "Press Start 2P", system-ui;
+    font-weight: 400;
+    font-style: normal;
+    overflow-x: hidden;
+}
+
+nav{
+    display:flex;
+    flex-direction: column;
+    align-items: center; 
+    border-bottom: 4px solid #f9a826; 
+    padding: 2vh;
+    animation: rainbow-color 10s infinite;
+}
+
+@keyframes rainbow-color {
+  0% {
+    background-color: red;
+  }
+  50% {
+    background-color: blue;
+  }
+  100% {
+    background-color: green;
+  }
+}
+
+h1 {
+    color: #f9a826;
+    margin: 0;
+    text-shadow: 2px 2px 5px rgba(0,0,0,0.8);
+}
+
+p {
+    color: #a2a2bc;
+    margin: 10px;
+}
+
+img{
+    width: 100%;
+    height: 100%;
+    object-fit: contain; 
+    background-color: #111; 
+    border-radius: 5px;
+    box-shadow: inset 0 0 15px rgba(119, 240, 155, 0.8);
+}
+
+
+/*TODO: Bloque donde se encuentran las paginas del comic*/
+
+
+/* *Se usa un contenedor con flexbox*/
+.book-container{
+    margin: 5vh auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    max-width: 1000px;
+    transition: transform 0.6s ease-in-out;
+}
+
+
+/* *Se define el estilo 3d y el tamaño para el contedor de las paginas*/
+.book{
+    perspective: 1500px;
+    width: 90vw;
+    max-width: 450px;
+    height: 135vw;
+    max-height: 650px;
+    position: relative;
+    transform-style: preserve-3d;
+}
+
+
+/* *Se jutan las paginas en el centro y su diseño*/
+.page{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top:0;
+    left:0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    transform-style: preserve-3d;
+    transform-origin: left center;
+    transition: transform 1s ease-out;
+    background-color: #f5f5f5;
+    border: 1px solid #333;
+    border-radius: 5px;
+}
+
+.front, .back {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden;/* ?"NUEVO": hace que la cara trasera no se vea util para este caso(solo en efectos 3d)*/
+}
+
+
+/* *Al estar rotado no se visualiza hasta que este pasa a estar al lado izquierdo devido a otra rotacion*/
+.back {
+    transform: rotateY(180deg);
+}
+
+/* TODO: Prioridad de paginas visibles*/
+.page1{
+    z-index: 4;
+}
+
+.page2{
+    z-index: 3;
+}
+
+.page3{
+    z-index: 2;
+}
+
+.page4{
+    z-index: 1;
+}
+
+
+/*!Este se adjunta segun el script, rota las paginas y la clase front no se logra ver y la clase back si esto por el backface-visibility:hidden*/
+.page-pass{
+    transform: rotateY(-180deg);
+}
+
+
+/*!Parte de la Inteligencia Artificial*/
+/* Intervención para responsividad absoluta (Móviles y Monitores) */
+
+@media (max-width: 768px) {
+    /* Pantallas de teléfono móvil (Vertical) */
+    .book-container {
+        margin: 2vh auto;
+    }
+    
+    /* Aprovechamos el estilo inline 'translateX' inyectado por el script para sobreescribirlo inteligentemente */
+    /* De esta forma al dar click, se acomoda y se hace más pequeño para que quepan 2 páginas en el móvil */
+    .book-container[style*="translateX"] {
+        transform: translateX(10vw) scale(0.65) !important;
+    }
+    
+    nav h1 {
+        font-size: 1.2rem;
+    }
+}
+
+@media (min-width: 769px) {
+    /* Pantallas de ordenador / Tabletas horizontales */
+    .book-container[style*="translateX"] {
+        /* Movemos el libro exactamente a la mitad de su tamaño máximo en vez de depender de 'vh' que puede fallar en monitores muy anchos */
+        transform: translateX(225px) !important; 
+    }
+}

@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>La Odisea del Código Libre</title>
+    <link rel="stylesheet" href="static/css/style.css">
+    <!--*Tipografia de Google Fonts-->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+</head>
+<body>
+
+
+    <!--TODO: Barra de navegación-->
+    <nav>
+        <h1>SOFTWARE LIBRE - HISTORIETA</h1>
+        <p>Disfruta del cómic 😊 | El código deve ser libre</p>
+    </nav>
+
+
+    <!--TODO: Seccion del comic-->
+    <section class="book-container"> <!--*Se encargara de la pocicion de los demas contenedores-->
+
+        <div class="book"> <!--*La clase va a darle estilo 3d a las paginas y limite del contenedor-->
+
+
+        <!--TODO:Paginas del libro-->
+
+            <!--*Clase page hara que las paginas queden encimadas en un lugar y su respectivo diseño-->
+            <div class="page page1">
+
+                <div class="front"><img src="static/img/Portada.jpg" alt="Portada"></div>
+                <div class="back"><img src="static/img/Pagina 1.jpg" alt="Pagina1"></div>
+                
+            </div>
+
+            <div class="page page2">
+                <div class="front"><img src="static/img/Pagina 2.jpg" alt="Pagina 2"></div>
+                <div class="back"><img src="static/img/pagina 3.jpg" alt="Pagina 3"></div>
+            </div>
+
+            <div class="page page3">
+                <div class="front"><img src="static/img/Pagina 4.jpg" alt="Pagina 4"></div>
+                <div class="back"><img src="static/img/Pagina 5.jpg" alt="Pagina 5"></div>
+            </div>
+
+            <div class="page page4">
+                <div class="front"><img src="static/img/Pagina 6.jpg" alt="Pagina 6"></div>
+                <div class="back"><img src="static/img/Contraportada.jpg" alt="Contraportada"></div>
+            </div>
+
+        </div>
+
+    </section>
+
+    <!--!Script para girar al dar click-->
+    <script>
+        const page = document.querySelectorAll('.page'); //Se toma la clase page
+        const book = document.querySelector('.book-container'); //Se toma el contenedor de book-container
+
+        page.forEach(page => {
+        page.addEventListener('click', () => {
+
+
+            // Al hacer clic, activa la animación agregando la clase, solo en la tarjeta presionada
+            page.classList.toggle('page-pass');
+
+
+            //Pregunta si se añade la clase page-pass al terminar la trancision...
+            if (page.classList.contains('page-pass')) {
+                page.addEventListener('transitionend', () => {
+                    page.style.zIndex = '-1'; // ...mueve la tarjeta al fondo después de la animación
+                }, { once: true }); // "NUEVO": Destruye el evento para que solo sea activo una vez, evita parpadeos
+            } else {
+                page.style.zIndex = ''; // Restaura el z-index original
+            }
+
+
+            //Pregunta si hay 0 clases page entonces mantiene su pocision de una sola pagina
+            if (document.querySelectorAll('.page-pass').length === 0){
+                    book.style.transform = '';
+                }
+            //De lo contrario centra las dos paginas
+            else {
+                    book.style.transform = 'translateX(45vh)';
+            }
+        });
+        });
+    </script>
+</body>
+</html>
